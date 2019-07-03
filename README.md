@@ -1,0 +1,2 @@
+# YanaPOnlinePacketGenerator
+YanaPOnlineUtilを使用するアプリケーション向けのパケット定義ツール
