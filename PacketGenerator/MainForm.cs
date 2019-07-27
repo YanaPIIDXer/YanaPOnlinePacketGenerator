@@ -40,14 +40,13 @@ namespace PacketGenerator
 			var Result = Dialog.ShowDialog();
 			if(Result != DialogResult.OK) { return; }
 
-			var Path = Config.ProjectRootDir + Dialog.ProjectName;
-			if(Directory.Exists(Path))
+			if(Project.IsValid(Dialog.ProjectName))
 			{
 				MessageBox.Show(Dialog.ProjectName + "は既に存在します。");
 				return;
 			}
 
-			Directory.CreateDirectory(Path);
+			Project.Create(Dialog.ProjectName);
 			ReloadProjectList();
 
 			MessageBox.Show("プロジェクトを作成しました。");
@@ -61,10 +60,29 @@ namespace PacketGenerator
 			ProjectListBox.Items.Clear();
 
 			var Projects = Directory.GetDirectories(Config.ProjectRootDir, "*", SearchOption.TopDirectoryOnly);
-			foreach(var Project in Projects)
+			foreach(var ProjectName in Projects)
 			{
-				ProjectListBox.Items.Add(Path.GetFileNameWithoutExtension(Project));
+				var Name = Path.GetFileNameWithoutExtension(ProjectName);
+				if (!Project.IsValid(Name)) { continue; }
+				ProjectListBox.Items.Add(Name);
 			}
+		}
+
+		// プロジェクトが選択された。
+		private void ProjectListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if(ProjectListBox.SelectedIndex == -1)
+			{
+				ProjectGroup.Enabled = false;
+				return;
+			}
+			ProjectGroup.Enabled = true;
+		}
+
+		// パケットＩＤenum追加ボタンが押された。
+		private void AddPacketIDEnumButton_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
