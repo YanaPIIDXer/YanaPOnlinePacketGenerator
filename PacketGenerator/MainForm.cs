@@ -92,6 +92,10 @@ namespace PacketGenerator
 				MessageBox.Show("プロジェクトの読み込みに失敗しました。\n" + Ex.Message);
 				CurrentProject = null;
 			}
+			finally
+			{
+				ReloadEnumList();
+			}
 		}
 
 		// パケットＩＤenum追加ボタンが押された。
@@ -107,7 +111,20 @@ namespace PacketGenerator
 				return;
 			}
 
+			ReloadEnumList();
 			MessageBox.Show("新規enumを追加しました。");
+		}
+
+		/// <summary>
+		/// パケットＩＤenumリストを再読み込み。
+		/// </summary>
+		private void ReloadEnumList()
+		{
+			PacketIDEnumListBox.Items.Clear();
+			if(CurrentProject == null) { return; }
+
+			var Enums = CurrentProject.CollectEnumList();
+			PacketIDEnumListBox.Items.AddRange(Enums);
 		}
 	}
 }

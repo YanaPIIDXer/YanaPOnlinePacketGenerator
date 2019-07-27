@@ -143,5 +143,23 @@ namespace PacketGenerator
 
 			return true;
 		}
+
+		/// <summary>
+		/// enumリストを列挙
+		/// </summary>
+		/// <returns>enumリスト</returns>
+		public string[] CollectEnumList()
+		{
+			List<string> Enums = new List<string>();
+			var Xmls = Directory.GetFiles(ProjectPath, "*.xml");
+			foreach (var Xml in Xmls)
+			{
+				string FileName = Path.GetFileNameWithoutExtension(Xml);
+				if (FileName == Path.GetFileNameWithoutExtension(BasicXmlFileName)) { continue; }
+				Enums.Add(FileName);
+			}
+
+			return Enums.ToArray();
+		}
 	}
 }
