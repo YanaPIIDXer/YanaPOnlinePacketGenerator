@@ -17,6 +17,11 @@ namespace PacketGenerator
 	public partial class MainForm : Form
 	{
 		/// <summary>
+		/// 現在選択されているプロジェクト
+		/// </summary>
+		private Project CurrentProject = null;
+
+		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public MainForm()
@@ -77,12 +82,32 @@ namespace PacketGenerator
 				return;
 			}
 			ProjectGroup.Enabled = true;
+
+			try
+			{
+				CurrentProject = new Project(ProjectListBox.SelectedItem.ToString());
+			}
+			catch(Exception Ex)
+			{
+				MessageBox.Show("プロジェクトの読み込みに失敗しました。\n" + Ex.Message);
+				CurrentProject = null;
+			}
 		}
 
 		// パケットＩＤenum追加ボタンが押された。
 		private void AddPacketIDEnumButton_Click(object sender, EventArgs e)
 		{
+			AddEnumForm Dialog = new AddEnumForm();
+			var Result = Dialog.ShowDialog();
+			if(Result != DialogResult.OK) { return; }
 
+			if(!CurrentProject.AddPacketIDEnum(Dialog.EnumName, Dialog.Output1, Dialog.Output2))
+			{
+				MessageBox.Show("既に登録されているenum名です。");
+				return;
+			}
+
+			MessageBox.Show("新規enumを追加しました。");
 		}
 	}
 }

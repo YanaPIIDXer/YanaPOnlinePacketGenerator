@@ -70,5 +70,65 @@ namespace PacketGenerator
 
 		#endregion
 
+		/// <summary>
+		/// 基本XMLのファイルパス
+		/// </summary>
+		private string BasicXmlPath = "";
+
+		/// <summary>
+		/// 基本XML
+		/// </summary>
+		XmlDocument BasicXml = null;
+
+		/// <summary>
+		/// XMLのルート要素
+		/// </summary>
+		XmlNode XmlRootNode = null;
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="Name">プロジェクト名</param>
+		public Project(string Name)
+		{
+			BasicXml = new XmlDocument();
+			BasicXmlPath = Config.ProjectRootDir + Name + @"\" + BasicXmlFileName;
+			BasicXml.Load(BasicXmlPath);
+			XmlRootNode = BasicXml.SelectSingleNode(XmlRootElementName);
+		}
+
+		/// <summary>
+		/// パケットＩＤのenumを追加。
+		/// </summary>
+		/// <param name="EnumName">enum名</param>
+		/// <param name="Output1">出力先１</param>
+		/// <param name="Output2">出力先２</param>
+		/// <returns>新規追加されたらtrueを返す。※既に存在するenum名ならfalseを返す。</returns>
+		public bool AddPacketIDEnum(string EnumName, EnumOutputData Output1, EnumOutputData Output2)
+		{
+			var Childs = XmlRootNode.ChildNodes;
+			foreach(XmlNode Child in Childs)
+			{
+				if(Child.Name == EnumName) { return false; }
+			}
+
+			XmlElement EnumElement = BasicXml.CreateElement(EnumName);
+
+			XmlElement Output1Element = BasicXml.CreateElement("Output1");
+			Output1Element.SetAttribute("Path", Output1.Path);
+			Output1Element.SetAttribute("Language", Output1.Language.ToString());
+			EnumElement.AppendChild(Output1Element);
+
+			XmlElement Output2Element = BasicXml.CreateElement("Output2");
+			Output2Element.SetAttribute("Path", Output2.Path);
+			Output2Element.SetAttribute("Language", Output2.Language.ToString());
+			EnumElement.AppendChild(Output2Element);
+
+			XmlRootNode.AppendChild(EnumElement);
+
+			BasicXml.Save(BasicXmlPath);
+
+			return true;
+		}
 	}
 }
