@@ -25,7 +25,12 @@ namespace PacketGenerator
 		/// 基本XMLファイルの最上位要素名
 		/// </summary>
 		private static readonly string XmlRootElementName = @"root";
-		
+
+		/// <summary>
+		/// パケットＩＤenumの要素名
+		/// </summary>
+		private static readonly string PacketIDEnumElementName = @"PacketIDEnum";
+
 		/// <summary>
 		/// 生成
 		/// </summary>
@@ -71,10 +76,10 @@ namespace PacketGenerator
 		#endregion
 
 		/// <summary>
-		/// 基本XMLのファイルパス
+		/// プロジェクトのパス
 		/// </summary>
-		private string BasicXmlPath = "";
-
+		private string ProjectPath = "";
+		
 		/// <summary>
 		/// 基本XML
 		/// </summary>
@@ -92,8 +97,8 @@ namespace PacketGenerator
 		public Project(string Name)
 		{
 			BasicXml = new XmlDocument();
-			BasicXmlPath = Config.ProjectRootDir + Name + @"\" + BasicXmlFileName;
-			BasicXml.Load(BasicXmlPath);
+			ProjectPath = Config.ProjectRootDir + Name + @"\";
+			BasicXml.Load(ProjectPath + BasicXmlFileName);
 			XmlRootNode = BasicXml.SelectSingleNode(XmlRootElementName);
 		}
 
@@ -112,7 +117,9 @@ namespace PacketGenerator
 				if(Child.Name == EnumName) { return false; }
 			}
 
-			XmlElement EnumElement = BasicXml.CreateElement(EnumName);
+			// 基本XMLへの登録
+			XmlElement EnumElement = BasicXml.CreateElement(PacketIDEnumElementName);
+			EnumElement.SetAttribute("Name", EnumName);
 
 			XmlElement Output1Element = BasicXml.CreateElement("Output1");
 			Output1Element.SetAttribute("Path", Output1.Path);
@@ -126,7 +133,13 @@ namespace PacketGenerator
 
 			XmlRootNode.AppendChild(EnumElement);
 
-			BasicXml.Save(BasicXmlPath);
+			// Enum用のXMLファイルを生成。
+			XmlDocument EnumXml = new XmlDocument();
+			XmlElement EnumRoot = EnumXml.CreateElement(XmlRootElementName);
+			EnumXml.AppendChild(EnumRoot);
+
+			EnumXml.Save(ProjectPath + EnumName + ".xml");
+			BasicXml.Save(ProjectPath + BasicXmlFileName);
 
 			return true;
 		}
