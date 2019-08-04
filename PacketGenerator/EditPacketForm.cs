@@ -30,6 +30,22 @@ namespace PacketGenerator
 			MemberListBox.DisplayMember = "Name";
 		}
 
+		/// <summary>
+		/// パケットデータを設定。
+		/// </summary>
+		/// <param name="Packet">パケットデータ</param>
+		public void SetPacketData(PacketData Packet)
+		{
+			PacketNameTextBox.Text = Packet.Name;
+			PacketRadioButton.Checked = Packet.IsPacket;
+			PacketIDTextBox.Text = Packet.ID;
+
+			foreach(var Member in Packet.Member)
+			{
+				MemberListBox.Items.Add(Member);
+			}
+		}
+
 		// ＯＫボタンが押された。
 		private void OKButton_Click(object sender, EventArgs e)
 		{

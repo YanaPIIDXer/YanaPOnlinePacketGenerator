@@ -33,8 +33,9 @@
 			this.AddPacketIDEnumButton = new System.Windows.Forms.Button();
 			this.PacketIDEnumListBox = new System.Windows.Forms.ListBox();
 			this.ProjectGroup = new System.Windows.Forms.GroupBox();
-			this.PacketListBox = new System.Windows.Forms.ListBox();
 			this.AddPacketButton = new System.Windows.Forms.Button();
+			this.PacketListBox = new System.Windows.Forms.ListBox();
+			this.EditPacketButton = new System.Windows.Forms.Button();
 			this.ProjectGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -80,6 +81,7 @@
 			// 
 			// ProjectGroup
 			// 
+			this.ProjectGroup.Controls.Add(this.EditPacketButton);
 			this.ProjectGroup.Controls.Add(this.AddPacketButton);
 			this.ProjectGroup.Controls.Add(this.PacketListBox);
 			this.ProjectGroup.Controls.Add(this.PacketIDEnumListBox);
@@ -91,26 +93,39 @@
 			this.ProjectGroup.TabIndex = 5;
 			this.ProjectGroup.TabStop = false;
 			// 
-			// PacketListBox
-			// 
-			this.PacketListBox.Enabled = false;
-			this.PacketListBox.FormattingEnabled = true;
-			this.PacketListBox.ItemHeight = 15;
-			this.PacketListBox.Location = new System.Drawing.Point(367, 21);
-			this.PacketListBox.Name = "PacketListBox";
-			this.PacketListBox.Size = new System.Drawing.Size(276, 364);
-			this.PacketListBox.TabIndex = 5;
-			// 
 			// AddPacketButton
 			// 
 			this.AddPacketButton.Enabled = false;
-			this.AddPacketButton.Location = new System.Drawing.Point(430, 391);
+			this.AddPacketButton.Location = new System.Drawing.Point(367, 391);
 			this.AddPacketButton.Name = "AddPacketButton";
 			this.AddPacketButton.Size = new System.Drawing.Size(161, 44);
 			this.AddPacketButton.TabIndex = 6;
 			this.AddPacketButton.Text = "パケット追加";
 			this.AddPacketButton.UseVisualStyleBackColor = true;
 			this.AddPacketButton.Click += new System.EventHandler(this.AddPacketButton_Click);
+			// 
+			// PacketListBox
+			// 
+			this.PacketListBox.DisplayMember = "Name";
+			this.PacketListBox.Enabled = false;
+			this.PacketListBox.FormattingEnabled = true;
+			this.PacketListBox.ItemHeight = 15;
+			this.PacketListBox.Location = new System.Drawing.Point(395, 21);
+			this.PacketListBox.Name = "PacketListBox";
+			this.PacketListBox.Size = new System.Drawing.Size(276, 364);
+			this.PacketListBox.TabIndex = 5;
+			this.PacketListBox.SelectedIndexChanged += new System.EventHandler(this.PacketListBox_SelectedIndexChanged);
+			// 
+			// EditPacketButton
+			// 
+			this.EditPacketButton.Enabled = false;
+			this.EditPacketButton.Location = new System.Drawing.Point(548, 391);
+			this.EditPacketButton.Name = "EditPacketButton";
+			this.EditPacketButton.Size = new System.Drawing.Size(161, 44);
+			this.EditPacketButton.TabIndex = 7;
+			this.EditPacketButton.Text = "パケット修正";
+			this.EditPacketButton.UseVisualStyleBackColor = true;
+			this.EditPacketButton.Click += new System.EventHandler(this.EditPacketButton_Click);
 			// 
 			// MainForm
 			// 
@@ -137,6 +152,7 @@
 		private System.Windows.Forms.GroupBox ProjectGroup;
 		private System.Windows.Forms.Button AddPacketButton;
 		private System.Windows.Forms.ListBox PacketListBox;
+		private System.Windows.Forms.Button EditPacketButton;
 	}
 }
 

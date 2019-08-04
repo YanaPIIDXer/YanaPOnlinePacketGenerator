@@ -164,7 +164,23 @@ namespace PacketGenerator
 			XmlDocument EnumXml = new XmlDocument();
 			EnumXml.Load(ProjectPath + EnumName + ".xml");
 
-			XmlElement PacketElement = EnumXml.CreateElement(PacketElementName);
+			XmlNode RootNode = EnumXml.SelectSingleNode(XmlRootElementName);
+			XmlElement PacketElement = null;
+			bool bIsUpdate = false;
+			foreach(XmlElement Child in RootNode.ChildNodes)
+			{
+				if(Child.GetAttribute("Name") == Data.Name)
+				{
+					PacketElement = Child;
+					PacketElement.RemoveAll();
+					bIsUpdate = true;
+				}
+			}
+
+			if(!bIsUpdate)
+			{
+				PacketElement = EnumXml.CreateElement(PacketElementName);
+			}
 			PacketElement.SetAttribute("Name", Data.Name);
 			PacketElement.SetAttribute("IsPacket", Data.IsPacket.ToString());
 			PacketElement.SetAttribute("ID", Data.ID);
@@ -177,10 +193,46 @@ namespace PacketGenerator
 				PacketElement.AppendChild(MemberElement);
 			}
 
-			XmlNode RootNode = EnumXml.SelectSingleNode(XmlRootElementName);
-			RootNode.AppendChild(PacketElement);
+			if(!bIsUpdate)
+			{
+				RootNode.AppendChild(PacketElement);
+			}
 
 			EnumXml.Save(ProjectPath + EnumName + ".xml");
+		}
+
+		/// <summary>
+		/// パケットリストを取得
+		/// </summary>
+		/// <param name="EnumName">enum名</param>
+		/// <returns>パケットリスト</returns>
+		public PacketData[] GetPackets(string EnumName)
+		{
+			List<PacketData> Packets = new List<PacketData>();
+
+			XmlDocument EnumXml = new XmlDocument();
+			EnumXml.Load(ProjectPath + EnumName + ".xml");
+			
+			XmlNode RootNode = EnumXml.SelectSingleNode(XmlRootElementName);
+			foreach(XmlElement PacketNode in RootNode.ChildNodes)
+			{
+				PacketData Data = new PacketData();
+				Data.Name = PacketNode.GetAttribute("Name");
+				Data.IsPacket = (PacketNode.GetAttribute("IsPacket") == "True");
+				Data.ID = PacketNode.GetAttribute("ID");
+
+				foreach(XmlElement MemberNode in PacketNode.ChildNodes)
+				{
+					PacketMemberData MemberData = new PacketMemberData();
+					MemberData.Name = MemberNode.GetAttribute("Name");
+					MemberData.Type = MemberNode.GetAttribute("Type");
+					Data.Member.Add(MemberData);
+				}
+
+				Packets.Add(Data);
+			}
+
+			return Packets.ToArray();
 		}
 
 		/// <summary>

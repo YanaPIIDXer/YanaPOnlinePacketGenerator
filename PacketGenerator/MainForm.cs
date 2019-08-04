@@ -95,7 +95,6 @@ namespace PacketGenerator
 			finally
 			{
 				ReloadEnumList();
-				ReloadPacketList();
 			}
 		}
 
@@ -156,6 +155,9 @@ namespace PacketGenerator
 		{
 			PacketListBox.Items.Clear();
 			if(CurrentProject == null) { return; }
+
+			var Packets = CurrentProject.GetPackets(PacketIDEnumListBox.SelectedItem.ToString());
+			PacketListBox.Items.AddRange(Packets);
 		}
 
 		// パケットＩＤenumの選択状態が更新された。
@@ -165,6 +167,36 @@ namespace PacketGenerator
 
 			PacketListBox.Enabled = bSelected;
 			AddPacketButton.Enabled = bSelected;
+
+			ReloadPacketList();
+		}
+
+		// パケットリストの選択状態が更新された。
+		private void PacketListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			EditPacketButton.Enabled = (PacketListBox.SelectedIndex != -1);
+		}
+
+		// パケット修正ボタンが押された。
+		private void EditPacketButton_Click(object sender, EventArgs e)
+		{
+			EditPacketForm Dialog = new EditPacketForm();
+			Dialog.SetPacketData((PacketData) PacketListBox.SelectedItem);
+			var Result = Dialog.ShowDialog();
+			if (Result != DialogResult.OK) { return; }
+
+			try
+			{
+				CurrentProject.AddPacket(PacketIDEnumListBox.SelectedItem.ToString(), Dialog.Data);
+			}
+			catch (Exception Ex)
+			{
+				MessageBox.Show("パケットの修正に失敗しました。\n" + Ex.Message);
+				return;
+			}
+
+			ReloadPacketList();
+			MessageBox.Show("パケットを修正しました。");
 		}
 	}
 }

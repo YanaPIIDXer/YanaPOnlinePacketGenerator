@@ -33,6 +33,15 @@ namespace PacketGenerator
 		public List<PacketMemberData> Member;
 
 		/// <summary>
+		/// ToString
+		/// </summary>
+		/// <returns>パケット名</returns>
+		public override string ToString()
+		{
+			return Name;
+		}
+
+		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public PacketData()
