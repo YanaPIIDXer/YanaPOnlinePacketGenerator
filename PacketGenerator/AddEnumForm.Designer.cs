@@ -40,6 +40,8 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.OKButton = new System.Windows.Forms.Button();
 			this.CancelButton = new System.Windows.Forms.Button();
+			this.Path1SelectButton = new System.Windows.Forms.Button();
+			this.Path2SelectButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -62,6 +64,7 @@
 			// 
 			this.Output1PathTextBox.Location = new System.Drawing.Point(199, 90);
 			this.Output1PathTextBox.Name = "Output1PathTextBox";
+			this.Output1PathTextBox.ReadOnly = true;
 			this.Output1PathTextBox.Size = new System.Drawing.Size(229, 22);
 			this.Output1PathTextBox.TabIndex = 3;
 			// 
@@ -120,6 +123,7 @@
 			// 
 			this.Output2PathTextBox.Location = new System.Drawing.Point(199, 184);
 			this.Output2PathTextBox.Name = "Output2PathTextBox";
+			this.Output2PathTextBox.ReadOnly = true;
 			this.Output2PathTextBox.Size = new System.Drawing.Size(229, 22);
 			this.Output2PathTextBox.TabIndex = 7;
 			// 
@@ -152,11 +156,33 @@
 			this.CancelButton.UseVisualStyleBackColor = true;
 			this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
 			// 
+			// Path1SelectButton
+			// 
+			this.Path1SelectButton.Location = new System.Drawing.Point(463, 90);
+			this.Path1SelectButton.Name = "Path1SelectButton";
+			this.Path1SelectButton.Size = new System.Drawing.Size(49, 23);
+			this.Path1SelectButton.TabIndex = 12;
+			this.Path1SelectButton.Text = "...";
+			this.Path1SelectButton.UseVisualStyleBackColor = true;
+			this.Path1SelectButton.Click += new System.EventHandler(this.Path1SelectButton_Click);
+			// 
+			// Path2SelectButton
+			// 
+			this.Path2SelectButton.Location = new System.Drawing.Point(463, 184);
+			this.Path2SelectButton.Name = "Path2SelectButton";
+			this.Path2SelectButton.Size = new System.Drawing.Size(49, 23);
+			this.Path2SelectButton.TabIndex = 13;
+			this.Path2SelectButton.Text = "...";
+			this.Path2SelectButton.UseVisualStyleBackColor = true;
+			this.Path2SelectButton.Click += new System.EventHandler(this.Path2SelectButton_Click);
+			// 
 			// AddEnumForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(629, 350);
+			this.Controls.Add(this.Path2SelectButton);
+			this.Controls.Add(this.Path1SelectButton);
 			this.Controls.Add(this.CancelButton);
 			this.Controls.Add(this.OKButton);
 			this.Controls.Add(this.Output2LanguageList);
@@ -192,5 +218,7 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.Button CancelButton;
+		private System.Windows.Forms.Button Path1SelectButton;
+		private System.Windows.Forms.Button Path2SelectButton;
 	}
 }

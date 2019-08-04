@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PacketGenerator
 {
@@ -77,6 +78,30 @@ namespace PacketGenerator
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		// パス１選択ボタンが押された。
+		private void Path1SelectButton_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog Dialog = new FolderBrowserDialog();
+			var Result = Dialog.ShowDialog();
+			if(Result != DialogResult.OK) { return; }
+			Uri CurrentUri = new Uri(Directory.GetCurrentDirectory());
+			Uri SelectedUri = new Uri(Dialog.SelectedPath);
+			string RelativePath = CurrentUri.MakeRelativeUri(SelectedUri).ToString().Replace("/", "\\");
+			Output1PathTextBox.Text = RelativePath;
+		}
+
+		// パス２選択ボタンが押された。
+		private void Path2SelectButton_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog Dialog = new FolderBrowserDialog();
+			var Result = Dialog.ShowDialog();
+			if (Result != DialogResult.OK) { return; }
+			Uri CurrentUri = new Uri(Directory.GetCurrentDirectory());
+			Uri SelectedUri = new Uri(Dialog.SelectedPath);
+			string RelativePath = CurrentUri.MakeRelativeUri(SelectedUri).ToString().Replace("/", "\\");
+			Output2PathTextBox.Text = RelativePath;
 		}
 	}
 }
