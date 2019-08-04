@@ -32,6 +32,16 @@ namespace PacketGenerator
 		private static readonly string PacketIDEnumElementName = @"PacketIDEnum";
 
 		/// <summary>
+		/// パケットの要素名
+		/// </summary>
+		private static readonly string PacketElementName = @"Packet";
+
+		/// <summary>
+		/// パケットメンバの要素名
+		/// </summary>
+		private static readonly string MemberElementName = @"Member";
+
+		/// <summary>
 		/// 生成
 		/// </summary>
 		/// <param name="ProjectName">プロジェクト名</param>
@@ -142,6 +152,35 @@ namespace PacketGenerator
 			BasicXml.Save(ProjectPath + BasicXmlFileName);
 
 			return true;
+		}
+
+		/// <summary>
+		/// パケット追加
+		/// </summary>
+		/// <param name="EnumName">パケットを追加するenum</param>
+		/// <param name="Data">パケットデータ</param>
+		public void AddPacket(string EnumName, PacketData Data)
+		{
+			XmlDocument EnumXml = new XmlDocument();
+			EnumXml.Load(ProjectPath + EnumName + ".xml");
+
+			XmlElement PacketElement = EnumXml.CreateElement(PacketElementName);
+			PacketElement.SetAttribute("Name", Data.Name);
+			PacketElement.SetAttribute("IsPacket", Data.IsPacket.ToString());
+			PacketElement.SetAttribute("ID", Data.ID);
+
+			foreach(var Member in Data.Member)
+			{
+				XmlElement MemberElement = EnumXml.CreateElement(MemberElementName);
+				MemberElement.SetAttribute("Name", Member.Name);
+				MemberElement.SetAttribute("Type", Member.Type);
+				PacketElement.AppendChild(MemberElement);
+			}
+
+			XmlNode RootNode = EnumXml.SelectSingleNode(XmlRootElementName);
+			RootNode.AppendChild(PacketElement);
+
+			EnumXml.Save(ProjectPath + EnumName + ".xml");
 		}
 
 		/// <summary>

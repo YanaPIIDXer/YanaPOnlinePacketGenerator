@@ -95,6 +95,7 @@ namespace PacketGenerator
 			finally
 			{
 				ReloadEnumList();
+				ReloadPacketList();
 			}
 		}
 
@@ -125,6 +126,45 @@ namespace PacketGenerator
 
 			var Enums = CurrentProject.CollectEnumList();
 			PacketIDEnumListBox.Items.AddRange(Enums);
+		}
+
+		// パケット追加ボタンが押された。
+		private void AddPacketButton_Click(object sender, EventArgs e)
+		{
+			EditPacketForm Dialog = new EditPacketForm();
+			var Result = Dialog.ShowDialog();
+			if(Result != DialogResult.OK) { return; }
+
+			try
+			{
+				CurrentProject.AddPacket(PacketIDEnumListBox.SelectedItem.ToString(), Dialog.Data);
+			}
+			catch(Exception Ex)
+			{
+				MessageBox.Show("パケットの追加に失敗しました。\n" + Ex.Message);
+				return;
+			}
+
+			ReloadPacketList();
+			MessageBox.Show("パケットを追加しました。");
+		}
+
+		/// <summary>
+		/// パケットリストを再読み込み。
+		/// </summary>
+		private void ReloadPacketList()
+		{
+			PacketListBox.Items.Clear();
+			if(CurrentProject == null) { return; }
+		}
+
+		// パケットＩＤenumの選択状態が更新された。
+		private void PacketIDEnumListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			bool bSelected = (PacketIDEnumListBox.SelectedIndex != -1);
+
+			PacketListBox.Enabled = bSelected;
+			AddPacketButton.Enabled = bSelected;
 		}
 	}
 }

@@ -33,6 +33,8 @@
 			this.AddPacketIDEnumButton = new System.Windows.Forms.Button();
 			this.PacketIDEnumListBox = new System.Windows.Forms.ListBox();
 			this.ProjectGroup = new System.Windows.Forms.GroupBox();
+			this.PacketListBox = new System.Windows.Forms.ListBox();
+			this.AddPacketButton = new System.Windows.Forms.Button();
 			this.ProjectGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -74,9 +76,12 @@
 			this.PacketIDEnumListBox.Name = "PacketIDEnumListBox";
 			this.PacketIDEnumListBox.Size = new System.Drawing.Size(276, 364);
 			this.PacketIDEnumListBox.TabIndex = 4;
+			this.PacketIDEnumListBox.SelectedIndexChanged += new System.EventHandler(this.PacketIDEnumListBox_SelectedIndexChanged);
 			// 
 			// ProjectGroup
 			// 
+			this.ProjectGroup.Controls.Add(this.AddPacketButton);
+			this.ProjectGroup.Controls.Add(this.PacketListBox);
 			this.ProjectGroup.Controls.Add(this.PacketIDEnumListBox);
 			this.ProjectGroup.Controls.Add(this.AddPacketIDEnumButton);
 			this.ProjectGroup.Enabled = false;
@@ -85,6 +90,27 @@
 			this.ProjectGroup.Size = new System.Drawing.Size(732, 435);
 			this.ProjectGroup.TabIndex = 5;
 			this.ProjectGroup.TabStop = false;
+			// 
+			// PacketListBox
+			// 
+			this.PacketListBox.Enabled = false;
+			this.PacketListBox.FormattingEnabled = true;
+			this.PacketListBox.ItemHeight = 15;
+			this.PacketListBox.Location = new System.Drawing.Point(367, 21);
+			this.PacketListBox.Name = "PacketListBox";
+			this.PacketListBox.Size = new System.Drawing.Size(276, 364);
+			this.PacketListBox.TabIndex = 5;
+			// 
+			// AddPacketButton
+			// 
+			this.AddPacketButton.Enabled = false;
+			this.AddPacketButton.Location = new System.Drawing.Point(430, 391);
+			this.AddPacketButton.Name = "AddPacketButton";
+			this.AddPacketButton.Size = new System.Drawing.Size(161, 44);
+			this.AddPacketButton.TabIndex = 6;
+			this.AddPacketButton.Text = "パケット追加";
+			this.AddPacketButton.UseVisualStyleBackColor = true;
+			this.AddPacketButton.Click += new System.EventHandler(this.AddPacketButton_Click);
 			// 
 			// MainForm
 			// 
@@ -109,6 +135,8 @@
 		private System.Windows.Forms.Button AddPacketIDEnumButton;
 		private System.Windows.Forms.ListBox PacketIDEnumListBox;
 		private System.Windows.Forms.GroupBox ProjectGroup;
+		private System.Windows.Forms.Button AddPacketButton;
+		private System.Windows.Forms.ListBox PacketListBox;
 	}
 }
 
